@@ -1,0 +1,5 @@
+# Keep node modules out of GitHub and have them be fetched at build time
+node_modules
+
+# Don't store the generated output in GIT
+_publish

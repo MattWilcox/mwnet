@@ -1,0 +1,547 @@
+@layer reset, defaults, design, utilities;
+/*
+	# SCREEN-CORE.CSS
+
+		- This file is _always_ loaded, it's referenced in the <head> of all pages.
+		- It should therefor contain styles that are _very likely_ to be used on the majority of pages, and should avoid styles for things that are unlikely to appear on many pages. _Those_ styles belong in their own stylesheet, and should be loaded on a page only when needed.
+		- This is meant to strike something of a balance between practicality and the theoretical goodness of "critical CSS" - which is almost never worth the effort or build steps required.
+
+	# CSS Cascade Layers
+
+		NOTES:
+		Layers should be declared before all other CSS.
+
+		REFERENCES:
+		- https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Cascade_layers
+		- https://css-tricks.com/css-cascade-layers/
+
+		Reset:
+			Undo inconsistent default browsers styles, so there are no differences between them.
+
+		Defaults:
+			Styles for "default" elements and "core level" markup. E.g., Fonts, Headings, how a <p> or <em> etc look by default, or how a basic form looks - without any component or page specific design over-rides.
+
+		Design:
+			The actual design of the site. How components look, how things are laid out, page specific styling, etc.
+
+		Utilities:
+			For the rare case where it makes sense, utility classes should override everything else. e.g., heading styles should _not_ be mapped to HTML heading level, but it's handy to map to a utility class.
+*/
+
+@layer reset {
+	/* Use a sensible CSS box model */
+	*, *:before, *:after {
+		box-sizing : border-box;
+	}
+
+	/* Ensure consistent default margins, paddings, borders.
+	   Make everything inherit font styles.
+	   Background-repeat should by default not repeat.
+	   Use more modern text wrap to help ensure no typographic widows */
+	* {
+		margin: 0; padding: 0; border-width: 0;
+		font-size: 100%; font: inherit;
+		background-repeat: no-repeat;
+		text-wrap: pretty;
+	}
+
+	html {
+		text-size-adjust: none;              /* Text size only controlled by font-size */
+		-webkit-font-smoothing: antialiased; /* This is a good default in a modern Retina world */
+		scroll-behavior: smooth;             /* Default to smooth scrolling (disabled conditionally later, for a11y) */
+	}
+
+	/* Any CSS that would remove the bullet or number indicators of a list’s items will also remove the semantics.
+	   REFERENCE: https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html
+
+	   So here we allow visually removing a bullet only if the markup explicitly adds back the list semantics through having a role='list' property value.
+
+	   TL:DR;
+	   To get rid of a bullet, add `role="list"` to the UL or OL element.
+	*/
+	:where(ul, ol)[role='list'] {
+		list-style: none;
+	}
+	:where(ul, ol):not([role='list']) { /* Ensure any lists without an explicit role attribute display their default bullet styling */
+		margin-inline-start: 2em;
+	}
+
+	/* form resets */
+	:where(button, input, select, textarea) {
+		color: inherit;
+		font-family: inherit;
+		font-style: inherit;
+		font-weight: inherit;
+	}
+	:where(button) {
+		appearance: none;                         /* Don't use the OS's theming */
+		display: inline-block;
+		cursor: pointer;
+		touch-action: manipulation;               /* faster taps as long as we're not zooming etc */
+		-webkit-tap-highlight-color: transparent; /* No, Safari */
+	}
+	:where([disabled]),
+	:where([disabled]) * { /* if anything is marked as disabled, the cursor should reflect that status */
+		cursor: not-allowed;
+		filter: grayscale(1);
+	}
+
+	/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+	@media (prefers-reduced-motion) {
+		html:focus-within {
+			scroll-behavior: auto;
+		}
+
+		*,
+		*::before,
+		*::after {
+			animation-duration:        0.01ms !important;
+			animation-iteration-count: 1      !important;
+			transition-duration:       0.01ms !important;
+			scroll-behavior:           auto   !important;
+		}
+	}
+
+	/* Becuase :is() and :where() are forgiving selectors, we can add multiple rules that might be unrecognised by the browser - and if a selector matches the rules are applied to that selector match.
+
+	Without using :is(), when a browser doesn't recognise a single selector in a selector list the browser will discards the whole ruleset.
+
+	:where has no specificity, :is takes the specificity of the most specific selector within the group.
+	:is vs :where examples - https://developer.mozilla.org/en-US/docs/Web/CSS/:where#examples
+	*/
+		:where(
+			::-webkit-selection,
+			::-moz-selection,
+			::selection
+		) {
+			background-color: hsl( var(--brand-colour, 100 20% 20%) );
+			color: #fff;
+		}
+
+		:where(
+			::-webkit-input-placeholder,
+			input:-moz-placeholder,
+			::placeholder
+		) {
+			font-size: 1em;
+		}
+
+		/* kill default HTML5 styling on webkit */
+		input[type=search],
+		input[type=submit] {
+			-webkit-appearance : none;
+		}
+		input[type="search"]:where(
+			::-webkit-search-decoration,
+			::-webkit-search-cancel-button
+		),
+		::-webkit-details-marker {
+			display: none;
+		}
+}
+
+@layer defaults {
+	/* # Font Imports */
+
+		/*
+			https://github.com/jacobxperez/atkinson-hyperlegible-pro
+			Atkinson Hyperlegible Pro is an updated and extended version of the original typeface, which was initially designed for The Braille Institute and named after its founder, J. Robert Atkinson. It was specifically designed to improve character recognition and legibility for low-vision readers by incorporating distinctive and unambiguous letterform’s.
+		*/
+		@font-face {
+			font-family: 'AtkinsonHyperPro';
+			src: url('./fonts/AtkinsonHyperPro-Regular.woff2') format('woff2');
+			font-weight: normal; font-style: normal;
+			font-display: swap;
+		}
+		@font-face {
+			font-family: 'AtkinsonHyperPro';
+			src: url('./fonts/AtkinsonHyperPro-Italic.woff2') format('woff2');
+			font-weight: normal; font-style: italic;
+			font-display: swap;
+		}
+		@font-face {
+			font-family: 'AtkinsonHyperPro';
+			src: url('./fonts/AtkinsonHyperPro-Bold.woff2') format('woff2');
+			font-weight: bold; font-style: normal;
+			font-display: swap;
+		}
+		@font-face {
+			font-family: 'AtkinsonHyperPro';
+			src: url('./fonts/AtkinsonHyperPro-BoldItalic.woff2') format('woff2');
+			font-weight: bold; font-style: italic;
+			font-display: swap;
+		}
+
+		/*
+			https://fonts.google.com/specimen/Merriweather
+			I'm only loading the Black weights, and using those as "regular" weights in this design.
+		*/
+		@font-face {
+			font-family: 'Merriweather';
+			src: url('./fonts/Merriweather-Black.woff2') format('woff2');
+			font-weight: normal; font-style: normal;
+			font-display: swap;
+		}
+		@font-face {
+			font-family: 'Merriweather';
+			src: url('./fonts/Merriweather-BlackItalic.woff2') format('woff2');
+			font-weight: normal; font-style: italic;
+			font-display: swap;
+		}
+
+		/*
+			https://github.com/githubnext/monaspace#monaspace
+			The Monaspace type system is a monospaced type superfamily with some modern tricks up its sleeve.
+			MonaspaceNeonVarVF[wght,wdth,slnt].woff2
+		*/
+		@font-face {
+			font-family: 'MonaspaceNeonVarVF';
+			src: url('./fonts/MonaspaceNeonVarVF[wght,wdth,slnt].woff2') format('woff2-variations');
+			font-display: swap;
+		}
+
+	/* # Focus management */
+		*:focus { /* fallback for older browsers that don't support 'focus-visible' */
+			outline: max(2px, 0.2em) solid currentColor !important;
+			outline-offset: 0.25em; z-index: 1000;
+			scroll-padding-block-end: 10vh; /* ensure it's in the viewport */
+		}
+
+		@supports selector(:focus-visible) {
+			*:focus { /* Do nothing with 'focus', as that activates on click as well as keyboard */
+				outline: none !important;
+				text-decoration: none;
+			}
+
+			*:focus-visible { /* Let the browser decide when things "should" have focus - e.g., keyboard, not click */
+				outline: max(2px, 0.2em) solid currentColor !important;
+				outline-offset: 0.25em; z-index: 1000;
+			}
+		}
+
+		:target { /* ensure it's clearly in the viewport */
+			scroll-padding-block-start: 2rem;
+		}
+
+	/* # CSS Custom Properties
+
+		NOTES:
+		Experimenting with "Custom property values with defaults"
+		https://lea.verou.me/2021/10/custom-properties-with-defaults/
+
+		:root {
+			--variable-name: value;
+		}
+
+		element {
+			--_variable-name: var(--variable-name, fallback-if-no-such-variable);
+			property: var(--_variable-name);
+		}
+	*/
+		:root {
+			/* Generic measures */
+			--gap:            var(--font-size-base);
+			--letter-spacing: 0.025em;
+
+			/* measures intended for "row" layout rather than component layout */
+			--row-width-max:           1280px;
+			--row-padding-block:       var(--gap);
+			--row-padding-inline:      var(--gap);
+
+			/* Animation speeds */
+			--very-fast:               0.15s;
+			--fast:                    0.3s;
+			--slow:                    0.6s;
+			--very-slow:               1.3s;
+
+			/*
+				Text sizes based on the Modular Scale, with fluid base size.
+				See https://chrisburnell.com/clamp-calculator/ for the fluid base generation.
+				This is set so that it's 16px at 360px, to 22px at 1200px.
+			*/
+			--font-size-base:          clamp(1rem, 0.839rem + 0.714vw, 1.375rem);
+
+			/* The other font sizes are then relative to the base font as it's scaled at the moment */
+			--font-size-diminished:    calc( 0.875 * var(--font-size-base) ); /* e.g., footer text or footnote */
+			--font-size-promoted:      calc( 1.2   * var(--font-size-base) ); /* e.g., an intro paragraph */
+			--font-size-heading-small: calc( 1.4   * var(--font-size-base) );
+			--font-size-heading:       calc( 1.6   * var(--font-size-base) );
+			--font-size-heading-large: calc( 2     * var(--font-size-base) );
+
+			--font-family-primary   : AtkinsonHyperPro, "Helvetica Neue", Helvetica, Arial, sans-serif;
+			--font-family-headings  : "Merriweather", "Helvetica Neue", Helvetica, Arial, sans-serif;
+			--font-family-code      : MonaspaceNeonVarVF, monospace;
+			--font-family-helvetica : "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+			/* Colour / theme related (hsl). I can't wait for Color Module Level 5 so this can be re-worked.
+				WAITING FOR... https://12daysofweb.dev/2022/css-color-spaces-relative-color-syntax/
+			*/
+			--ui-green:                103 46% 48%;
+			--ui-red:                  17 46% 48%;
+			--black:                   0 0% 0%;
+			--white:                   0 0% 100%;
+			--brand-colour:            120 40% 40%;
+			--brand-colour-contrast:   300 60% 60%;
+		}
+
+	/* # Base Elements */
+		html {
+			background-color: hsl( var(--white) );
+			color           : hsl( var(--black) );
+			accent-color    : var(--brand-colour, auto); /* https://developer.mozilla.org/en-US/docs/Web/CSS/accent-color */
+			font-size       : var(--font-size-root);
+		}
+
+		:where(body) {
+			font-size: var(--font-size-base, 100%);
+			line-height: 1.375;
+			font-family: var(--font-family-primary);
+			hyphens: none;
+		}
+
+		sup       { vertical-align: top; font-size: .75em; }
+		sub       { vertical-align: bottom; font-size: .75em; }
+		strong    { font-weight: bold; }
+		em        { font-style: italic; }
+		code      {
+			isolation: isolate; position: relative;
+			display: inline-block; margin-inline: 0.25em;
+			vertical-align: middle; font: .7em/1 var(--font-family-code);
+
+			&::before {
+				position: absolute; z-index: -1;
+				content: ""; inset: -0.25em; border-radius: 0.25em;
+				background-color: currentColor;
+				opacity: 0.1;
+			}
+		}
+
+		a:link    { -webkit-tap-highlight-color: hsl( var(--ui-green) ); text-decoration: none; }
+		a:link,
+		a:visited { color: inherit; }
+		a:hover   { color: hsl( var(--ui-green, 120 100% 47%) ); }
+		a:focus,
+		a:active  { outline-color: transparent; } /* Not "0 outline" as that wouldn't be accessible for high contrast etc */
+
+	/* # HTML "Components" - some basic HTML stuff is now more mark-up pattern than individual elements */
+		/* ## Details */
+			details > summary {
+				list-style-type: none;
+				padding: 0.5em var(--gap) 0.25em 0; border: 1px solid transparent; border-bottom-color: currentColor;
+				background: transparent url(/design-assets/images/plus.svg) 100% 5px no-repeat;
+				cursor: pointer;
+			}
+			details > summary:focus {
+				text-decoration: none;
+			}
+			details[open] > summary {
+				background: transparent url(/design-assets/images/minus.svg) 100% 5px no-repeat;
+			}
+			details .content {
+				padding: var(--gap, 1rem) 0;
+			}
+
+		/* ## Dialog */
+			dialog.modal {
+				position: sticky; inset: 0;
+				max-width: 40ch; border: 0; padding: var(--gap);
+				background-color: hsl( var(--black) / 0.2 );
+				box-shadow: 0 0 var( --gap ) hsl( var(--black) / 0.6 );
+				backdrop-filter: blur(10px);
+			}
+
+		/* ## Tables */
+			table {
+				border-collapse: collapse; /* Make it behave like every other HTML element */
+			}
+			caption, th, td {
+				padding: 0.5rem;
+				text-align: left;
+			}
+			tr:nth-of-type(2n) td {
+				background-color: hsl(0 0% 0% / 0.1)
+			}
+			caption {
+				text-transform: uppercase; font-size: 0.875em; letter-spacing: 0.02em; font-weight: bold;
+			}
+			thead {
+				border-block-end: 1px solid currentColor;
+			}
+			tbody th {
+				border-inline-end: 1px solid currentColor;
+			}
+			tfoot {
+				border-block-start: 1px solid currentColor;
+			}
+
+	/* # Image management */
+		img                           { max-width: 100%; }
+		a img                         { margin: 0; }
+		img[data-object-fit="contain"] { object-fit: contain; }
+		img[data-object-fit="cover"]   { object-fit: cover; }
+
+		picture {
+			display: flex;
+		}
+		picture > img {
+			width: 100%; height: 100%;
+		}
+
+		/* loading spinner bg on <picture> elements */
+			picture {
+				background-color: hsl( var(--black) / 0.2 );
+				position: relative;
+			}
+			picture > img {
+				z-index: 1;
+			}
+			picture:before {
+				position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+				content: ""; display: block; width: 3em; height: 3em; margin: 8px;
+				border-radius: 50%; border: 0.5em solid #fff;
+				border-color: #fff transparent #fff transparent;
+				animation: loadingSpinner var(--slow, 0.9s) linear infinite;
+			}
+			@keyframes loadingSpinner {
+				0%   { transform: translate(-50%,-50%) rotate(0deg); }
+				100% { transform: translate(-50%,-50%) rotate(360deg); }
+			}
+
+		/* Only render images when in the viewport, we can assume any image inside <header> is already in the viewport
+			REFERENCE: https://www.industrialempathy.com/posts/image-optimizations/
+		*/
+			main img,
+			footer img {
+				content-visibility: auto;
+			}
+}
+
+@layer design {
+	/*
+		This is where you would add the CSS for your design.
+
+		There is nothing here, so that the file can be duplicated easily as a starting point for other projects.
+
+		The styles for the demo site are stored in `screen-demo.css` and are slotted into the design layer.
+		Just removing that file brings things back to a "standard" blank starting position ready for any project.
+	*/
+}
+
+@layer utilities {
+	/* Utility classes start with a uc_ prefix, so they're obvious in markup */
+
+	/* Heading styles should not be set on the naked elements. Doing so often encourages people to use the wrong heading level purely to get the right look. Instead, use the right semantic heading level and apply a class to get the appropriate look. */
+	:where(
+		.uc_h1,
+		.uc_h2,
+		.uc_h3
+	 ) {
+		font-family   : var(--font-family-headings);
+		font-weight   : bold;
+		letter-spacing: var(--letter-spacing);
+		text-wrap     : balance;
+	}
+
+	:where(.uc_h1) { font-size: var(--font-size-heading-large) }
+	:where(.uc_h2) { font-size: var(--font-size-heading) }
+	:where(.uc_h3) { font-size: var(--font-size-heading-small) }
+
+	:where(.uc_hide-visually):not(:focus):not(:active) { /* screen readers still get the content */
+		/* Source:
+		   https://www.tpgi.com/the-anatomy-of-visually-hidden/
+		   https://www.a11yproject.com/posts/how-to-hide-content/ */
+		position: absolute;
+		height: 1px; width: 1px; clip-path: inset(50%);
+		overflow: hidden; white-space: nowrap;
+	}
+
+	:where(.uc_hide-for-everyone) { /* screen readers also get the content hidden */
+		display: none !important;
+	}
+
+	:where(.uc_button) {
+		display: inline-flex; align-items: center; gap: calc( var(--gap) / 2 );
+		padding: var(--input-padding);
+		border: 2px solid transparent; border-radius: var(--input-border-radius);
+		background-color: hsl( var(--brand-colour) / 0.75 );
+		letter-spacing: calc( (var(--ps-letter-spacing, 40) / 1000) * 1em );
+		color: hsl( var(--white) ) !important;
+		transition: background-color, var(--fast);
+	}
+	:where(.uc_button):hover {
+		background-color: hsl( var(--brand-colour) / 1 );
+	}
+
+	/* Styling "blocks" of text such as from a Rich Text Editor, that contains multiple types of mostly text mark-up, such as paragraphs, ul, li, etc */
+	:where(.uc_rich-text) {
+		& > * + * {
+			/* This method of getting vertical spacing may end up redundant if margin-trim lands: https://developer.mozilla.org/en-US/docs/Web/CSS/margin-trim */
+			margin-block-start: var(--gap);
+		}
+
+		&:not([data-allow-long-lines]) > * {
+			max-inline-size: 72ch; /* Don't allow hard to read line-lengths unless there's a data attribute to say to allow it */
+		}
+
+		/*
+			Styling Headings
+
+			This is where CSS's lack of "mixin" feature hurts. In a "rich text" area, it's unlikely that the CMS would allow the addition of classes to headings - and even if it did many people aren't going to do that. So, we must try to scope our heading styles onto "raw heading tags" when we're inside a Rich Text area. That's what I'm doing here - if a heading *does not have a utility class on it* then we apply these styles to it.
+
+			In an ideal world we'd define our heading styles as re-usable chunks of CSS rulesets, and include them where we need them. Something like:
+
+			@mixin h1 {
+				// all the visual styles that make up a h1
+			}
+
+			.anything {
+				@output-mixin h1; // dumps all those styles into this selector ruleset
+			}
+
+			But no such pattern exists in CSS and the alternative - add the selectors you want to the same ruleset - is a method that disallows all sorts of organisational methodology in authoring.
+		*/
+
+		& h2:not([class*="uc_h"]) { /* A h2 that doesn't have any heading related utility class on it */
+			font-size: var(--font-size-heading);
+		}
+		& h3:not([class*="uc_h"]) { /* A h3 that doesn't have any heading related utility class on it */
+			font-size: var(--font-size-heading-small);
+		}
+		& h4:not([class*="uc_h"]) { /* A h4 that doesn't have any heading related utility class on it */
+			font-size: var(--font-size-promoted);
+		}
+
+		& a:not([class]) { /* Anchors that have a class likely have some unique styling */
+			text-decoration: underline;
+			text-underline-offset: 0.15em;
+		}
+
+		& li + li {
+			margin-block-start: 0.5em;
+		}
+
+		& ol {
+			margin-left: 1.7em;
+
+			& li::marker {
+				font-family: monospace; font-size: 0.875em;
+			}
+		}
+
+		& ul {
+			margin-left: 1.2em;
+		}
+
+		& blockquote {
+			padding: 1em; margin-bottom: 1em;
+
+			& p:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		& iframe {
+			display: block;
+		}
+	}
+}
