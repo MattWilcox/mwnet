@@ -37,7 +37,7 @@
 	}
 
 	header {
-		padding-block-start: var(--gap);
+		padding-block-start: calc(var(--gap) * 2);
 
 		hgroup {
 			grid-column: content;
@@ -63,6 +63,10 @@
 				padding-inline: var(--gap);
 			}
 		}
+	}
+
+	main {
+		padding-block-end: calc(var(--gap) * 2);
 	}
 
 	footer {
