@@ -1,0 +1,74 @@
+@layer design {
+	:root {
+		--max-content-width: 48rem;
+	}
+
+	.skiplink {
+		position: absolute; inset: 0 0 auto 0;
+		padding: 0.5em;
+		background-color: hsl( var(--black) ); color: hsl( var(--white) );
+		text-decoration: underline;
+		clip-path: polygon(0 0, 100% 0, 100% 0%, 0 0%);
+		transition: clip-path, var(--very-fast);
+	}
+	.skiplink:focus {
+		clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+	}
+
+	.layout_grid1 {
+		--_min-gutters: var(--gap);
+
+		display: grid;
+		grid-template-columns:
+			[full-width-start] minmax(var(--_min-gutters), 1fr) [content-start] min( calc(100% - (2 * var(--_min-gutters))), var(--max-content-width) ) [content-end] minmax(var(--_min-gutters), 1fr) [full-width-end];
+	}
+
+	.layout_grid2 {
+		--_min-gutters: var(--gap);
+
+		display: grid;
+		grid-template-columns:
+			[full-width-start] minmax(var(--_min-gutters), 2fr) [content-extended-start] minmax(0, 1fr) [content-start] min( calc(100% - (2 * var(--_min-gutters))), var(--max-content-width) ) [content-end] minmax(0, 1fr) [content-extended-end] minmax(var(--_min-gutters), 2fr) [full-width-end];
+	}
+
+	.siteIntro {
+		grid-column: content;
+		padding-block: var(--gap);
+	}
+
+	header {
+		padding-block-start: var(--gap);
+
+		hgroup {
+			grid-column: content;
+		}
+
+		.callout {
+			grid-column: content-extended; /* place the block where we want it */
+			display: grid; grid-template-columns: subgrid; /* inherit the parents' grid */
+			margin-block-start: var(--gap); padding: calc(2 * var(--gap)) var(--gap); border: 2px solid currentColor;
+			transform: rotate(-1.5deg);
+			font-family: var(--font-family-code);
+			background-color: white;
+			filter: drop-shadow(0 0 var(--gap) hsl(0 0% 0% / 0.2));
+
+			& > * {
+				grid-column: content;
+				padding-inline: var(--gap);
+			}
+		}
+	}
+
+	footer {
+		border-block-start: 1px solid currentColor;
+		padding-block: var(--gap);
+
+		h2 {
+			grid-column: content;
+		}
+		ul {
+			grid-column: content;
+			display: flex; gap: var(--gap); flex-wrap: wrap;
+		}
+	}
+}
