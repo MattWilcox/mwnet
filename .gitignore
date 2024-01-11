@@ -15,8 +15,6 @@ _publish
 ._*
 
 ### Vim stuff no one wants ###
-[._]*.s[a-w][a-z]
-[._]s[a-w][a-z]
 *.un~
 Session.vim
 .netrwhist
