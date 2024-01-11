@@ -41,6 +41,10 @@
 
 		hgroup {
 			grid-column: content;
+
+			a {
+				font-size: var(--font-size-diminished);
+			}
 		}
 
 		.callout {
@@ -62,14 +66,125 @@
 	}
 
 	footer {
-		border-block-start: 1px solid currentColor;
-		padding-block: var(--gap);
+		display: grid;
+		border-block-start: 3px solid currentColor;
+		font-size: var(--font-size-diminished);
 
-		& > section {
-			grid-column: content;
+		:where(& > section) {
+			grid-column: content-extended;
+		}
+
+		:where(#elsewhere, #elsewhen) {
+			h2 {
+				border-block-end: 1px solid currentColor;
+			}
+			.wrapper {
+				padding-block-start: 0.5em;
+				display: grid; grid-template-columns: 1fr 2fr; gap: var(--gap);
+			}
+
+			ul {
+				display: flex; flex-direction: column; gap: 0.25em;
+			}
+
+			li {
+				text-align: right;
+			}
+		}
+
+		:where(#elsewhere) {
+			padding-block-start: calc(var(--gap) * 2);
+		}
+		:where(#elsewhen) {
+			padding-block-end: calc(var(--gap) * 2);
+		}
+
+		:where(#minutae) {
+			border-top: 1px solid currentColor;
+			grid-column: full-width;
+			display: flex; flex-wrap: wrap; gap: var(--gap); justify-content: space-between;
+			padding-inline: var(--gap); padding-block: var(--gap);
+
+			a {
+				text-decoration: underline;
+			}
 		}
 
 		ul {
+		}
+	}
+}
+
+@layer utilities {
+	.uc_rich-text {
+		& a[href^="http" i]:not([href*="mattwilcox.net" i]) {
+			/* links to external websites */
+			color: blue;
+
+			&::after {
+				content: "";
+				vertical-align: top;
+				display: inline-block;
+				width: calc(1ch);
+				height: 1ch;
+				margin-inline-start: 0.25ch;
+				background: transparent url('/design-assets/images/globe-alt.svg') 0 0 / contain no-repeat;
+			}
+		}
+
+		& a[href*="mattwilcox.net" i] {
+			/* links to other pages on this domain */
+			color: green;
+		}
+
+		& a[href^='#'] {
+			/* internal page links */
+
+			&::after {
+				content: "";
+				vertical-align: top;
+				display: inline-block;
+				width: calc(1ch);
+				height: 1ch;
+				margin-inline-start: 0.25ch;
+				background: transparent url('/design-assets/images/switch-vertical.svg') 0 0 / contain no-repeat;
+			}
+		}
+
+		& a[target='_blank'] {
+			/* Style links that open in a new window */
+
+			&::after {
+				content: "";
+				vertical-align: top;
+				display: inline-block;
+				width: calc(1ch);
+				height: 1ch;
+				margin-inline-start: 0.25ch;
+				background: transparent url('/design-assets/images/external-link.svg') 0 0 / contain no-repeat;
+			}
+		}
+
+		& a[target='_blank'][href^="http" i]:not([href*="mattwilcox.net" i]) {
+			/* links to external websites that open in a new window */
+
+			&::after {
+				content: "";
+				vertical-align: top;
+				display: inline-block;
+				width: calc(2.25ch);
+				height: 1ch;
+				margin-inline-start: 0.25ch;
+				background-color: transparent;
+				background-image: url('/design-assets/images/globe-alt.svg'),
+				url('/design-assets/images/external-link.svg');
+				background-position: 0 0,
+				1.25ch 0;
+				background-size: auto 1ch,
+				auto 1ch;
+				background-repeat: no-repeat,
+				no-repeat;
+			}
 		}
 	}
 }
