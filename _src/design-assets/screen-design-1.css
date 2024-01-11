@@ -46,7 +46,9 @@
 		.callout {
 			grid-column: content-extended; /* place the block where we want it */
 			display: grid; grid-template-columns: subgrid; /* inherit the parents' grid */
-			margin-block-start: var(--gap); padding: calc(2 * var(--gap)) var(--gap); border: 2px solid currentColor;
+			margin-block: calc(2 * var(--gap));
+			padding: calc(2 * var(--gap)) var(--gap);
+			border: 2px solid currentColor;
 			transform: rotate(-1.5deg);
 			font-family: var(--font-family-code);
 			background-color: white;
@@ -63,12 +65,11 @@
 		border-block-start: 1px solid currentColor;
 		padding-block: var(--gap);
 
-		h2 {
+		& > section {
 			grid-column: content;
 		}
+
 		ul {
-			grid-column: content;
-			display: flex; gap: var(--gap); flex-wrap: wrap;
 		}
 	}
 }
