@@ -191,4 +191,8 @@
 			}
 		}
 	}
+
+	.uc_tabular {
+		  font-variant-numeric: tabular-nums;
+	}
 }
