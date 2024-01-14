@@ -24,7 +24,8 @@
 	:where(
 		.layout_grid1,
 		footer > section,
-		html[data-template='home'] header
+		html[data-template='home'] header,
+		html[data-template='about'] header,
 	 ) {
 		--_min-gutters: var(--gap);
 
@@ -37,38 +38,6 @@
 			[content-end content-extended-end]
 			minmax(var(--_min-gutters), 2fr)
 			[full-width-end];
-
-		@media screen and (min-width: 72rem) {
-			grid-template-columns:
-				[full-width-start]
-				minmax(var(--_min-gutters), 2fr)
-				[content-extended-start]
-				minmax(0, 1fr)
-				[content-start]
-				min( calc(100% - (2 * var(--_min-gutters))), var(--max-content-width) )
-				[content-end]
-				minmax(0, 1fr)
-				[content-extended-end]
-				minmax(var(--_min-gutters), 2fr)
-				[full-width-end];
-		}
-	}
-
-	.siteIntro {
-		grid-column: content;
-		padding-block: var(--gap);
-	}
-
-	header {
-		padding-block-start: calc(var(--gap) * 2);
-
-		hgroup {
-			grid-column: content;
-
-			a {
-				font-size: var(--font-size-diminished);
-			}
-		}
 
 		.callout {
 			grid-column: content-extended; /* place the block where we want it */
@@ -84,6 +53,43 @@
 			& > * {
 				grid-column: content;
 				padding-inline: var(--gap);
+			}
+		}
+
+		@media screen and (min-width: 72rem) {
+			grid-template-columns:
+				[full-width-start]
+				minmax(var(--_min-gutters), 2fr)
+				[content-extended-start]
+				minmax(0, 1fr)
+				[content-start]
+				min( calc(100% - (2 * var(--_min-gutters))), var(--max-content-width) )
+				[content-end]
+				minmax(0, 1fr)
+				[content-extended-end]
+				minmax(var(--_min-gutters), 2fr)
+				[full-width-end];
+
+			.callout > * { /* We don't need the inline padding now */
+				padding-inline: 0;
+			}
+		}
+	}
+
+	.siteIntro {
+		grid-column: content;
+		padding-block: var(--gap);
+	}
+
+	header {
+		padding-block-start: calc(var(--gap) * 2);
+
+		hgroup,
+		.pageIntro {
+			grid-column: content;
+
+			a {
+				font-size: var(--font-size-diminished);
 			}
 		}
 	}
@@ -144,7 +150,7 @@
 		:where(#minutae) {
 			border-top: 1px solid currentColor;
 
-			.containerChild{
+			.containerChild {
 				grid-column: full-width;
 				display: flex; flex-wrap: wrap; gap: var(--gap); justify-content: space-between;
 				padding-inline: var(--gap); padding-block: var(--gap);
