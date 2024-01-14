@@ -24,8 +24,9 @@
 	:where(
 		.layout_grid1,
 		footer > section,
-		html[data-template='home'] header,
+		html[data-template='home']  header,
 		html[data-template='about'] header,
+		html[data-template='about'] main section .containerChild
 	 ) {
 		--_min-gutters: var(--gap);
 
@@ -82,7 +83,7 @@
 	}
 
 	header {
-		padding-block-start: calc(var(--gap) * 2);
+		padding-block: calc(var(--gap) * 2);
 
 		hgroup,
 		.pageIntro {
@@ -90,6 +91,28 @@
 
 			a {
 				font-size: var(--font-size-diminished);
+			}
+		}
+
+		& > * + * {
+			margin-block-start: var(--gap);
+		}
+
+		.navInPage {
+			grid-column: content;
+
+			li {
+				font-family: var(--font-family-code);
+				font-size: var(--font-size-diminished);
+				text-align: middle;
+			}
+
+			a {
+				display: inline-block;
+				&:before {
+					content: "↓";
+					display: inline-block;margin-inline-end: 0.2em;
+				}
 			}
 		}
 	}
@@ -159,6 +182,16 @@
 			a {
 				text-decoration: underline;
 			}
+		}
+	}
+
+	.navInPage > ul {
+		display: flex; gap: var(--gap);
+	}
+
+	html[data-template='about'] {
+		main section .uc_rich-text {
+			grid-column: content;
 		}
 	}
 }

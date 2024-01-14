@@ -500,46 +500,53 @@
 			But no such pattern exists in CSS and the alternative - add the selectors you want to the same ruleset - is a method that disallows all sorts of organisational methodology in authoring.
 		*/
 
-		& h2:not([class*="uc_h"]) { /* A h2 that doesn't have any heading related utility class on it */
+		:where(h2,h3,h4):not([class*="uc_h"]) {
+			font-family   : var(--font-family-headings);
+			font-weight   : bold;
+			letter-spacing: var(--letter-spacing);
+			text-wrap     : balance;
+		}
+
+		h2:not([class*="uc_h"]) { /* A h2 that doesn't have any heading related utility class on it */
 			font-size: var(--font-size-heading);
 		}
-		& h3:not([class*="uc_h"]) { /* A h3 that doesn't have any heading related utility class on it */
+		h3:not([class*="uc_h"]) { /* A h3 that doesn't have any heading related utility class on it */
 			font-size: var(--font-size-heading-small);
 		}
-		& h4:not([class*="uc_h"]) { /* A h4 that doesn't have any heading related utility class on it */
+		h4:not([class*="uc_h"]) { /* A h4 that doesn't have any heading related utility class on it */
 			font-size: var(--font-size-promoted);
 		}
 
-		& a:not([class]) { /* Anchors that have a class likely have some unique styling */
+		a:not([class]) { /* Anchors that have a class likely have some unique styling */
 			text-decoration: underline;
 			text-underline-offset: 0.15em;
 		}
 
-		& li + li {
+		li + li {
 			margin-block-start: 0.5em;
 		}
 
-		& ol {
+		ol {
 			margin-left: 1.7em;
 
-			& li::marker {
+			& > li::marker {
 				font-family: monospace; font-size: 0.875em;
 			}
 		}
 
-		& ul {
+		ul {
 			margin-left: 1.2em;
 		}
 
-		& blockquote {
+		blockquote {
 			padding: 1em; margin-bottom: 1em;
 
-			& p:last-child {
+			p:last-child {
 				margin-bottom: 0;
 			}
 		}
 
-		& iframe {
+		iframe {
 			display: block;
 		}
 	}
