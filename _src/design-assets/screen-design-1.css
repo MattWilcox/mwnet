@@ -15,20 +15,43 @@
 		clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 	}
 
-	.layout_grid1 {
+	/*
+		And it's for this sort of use case that I _really_ want native @mixin support.
+		As it is, you either have to:
+			- inject "utility classes" in to mark-up (Which makes it tied to a singular layout design - fragile)
+			- Do what I have here and "bundle" selectors - which is fragile and causes fragmentation in the CSS file
+	*/
+	:where(
+		.layout_grid1,
+		footer > section,
+		html[data-template='home'] header
+	 ) {
 		--_min-gutters: var(--gap);
 
 		display: grid;
 		grid-template-columns:
-			[full-width-start] minmax(var(--_min-gutters), 1fr) [content-start] min( calc(100% - (2 * var(--_min-gutters))), var(--max-content-width) ) [content-end] minmax(var(--_min-gutters), 1fr) [full-width-end];
-	}
+			[full-width-start]
+			minmax(var(--_min-gutters), 2fr)
+			[content-extended-start content-start]
+			min( calc(100% - (2 * var(--_min-gutters))), var(--max-content-width) )
+			[content-end content-extended-end]
+			minmax(var(--_min-gutters), 2fr)
+			[full-width-end];
 
-	.layout_grid2 {
-		--_min-gutters: var(--gap);
-
-		display: grid;
-		grid-template-columns:
-			[full-width-start] minmax(var(--_min-gutters), 2fr) [content-extended-start] minmax(0, 1fr) [content-start] min( calc(100% - (2 * var(--_min-gutters))), var(--max-content-width) ) [content-end] minmax(0, 1fr) [content-extended-end] minmax(var(--_min-gutters), 2fr) [full-width-end];
+		@media screen and (min-width: 72rem) {
+			grid-template-columns:
+				[full-width-start]
+				minmax(var(--_min-gutters), 2fr)
+				[content-extended-start]
+				minmax(0, 1fr)
+				[content-start]
+				min( calc(100% - (2 * var(--_min-gutters))), var(--max-content-width) )
+				[content-end]
+				minmax(0, 1fr)
+				[content-extended-end]
+				minmax(var(--_min-gutters), 2fr)
+				[full-width-end];
+		}
 	}
 
 	.siteIntro {
@@ -70,12 +93,15 @@
 	}
 
 	footer {
-		display: grid;
 		border-block-start: 3px solid currentColor;
 		font-size: var(--font-size-diminished);
 
 		:where(& > section) {
-			grid-column: content-extended;
+			container: footerSection / inline-size;
+
+			.containerChild {
+				grid-column: content-extended;
+			}
 		}
 
 		:where(#elsewhere, #elsewhen) {
@@ -84,15 +110,27 @@
 			}
 			.wrapper {
 				padding-block-start: 0.5em;
-				display: grid; grid-template-columns: 1fr 2fr; gap: var(--gap);
+				display: grid; gap: var(--gap);
 			}
 
 			ul {
 				display: flex; flex-direction: column; gap: 0.25em;
 			}
 
-			li {
-				text-align: right;
+			@container footerSection (min-width: 28rem) {
+				.wrapper {
+					grid-template-columns: 1fr 1fr;
+				}
+
+				li {
+					text-align: right;
+				}
+			}
+
+			@container footerSection (min-width: 48rem) {
+				.wrapper {
+					grid-template-columns: 1fr 2fr;
+				}
 			}
 		}
 
@@ -100,21 +138,21 @@
 			padding-block-start: calc(var(--gap) * 2);
 		}
 		:where(#elsewhen) {
-			padding-block-end: calc(var(--gap) * 2);
+			padding-block: calc(var(--gap) * 2);
 		}
 
 		:where(#minutae) {
 			border-top: 1px solid currentColor;
-			grid-column: full-width;
-			display: flex; flex-wrap: wrap; gap: var(--gap); justify-content: space-between;
-			padding-inline: var(--gap); padding-block: var(--gap);
+
+			.containerChild{
+				grid-column: full-width;
+				display: flex; flex-wrap: wrap; gap: var(--gap); justify-content: space-between;
+				padding-inline: var(--gap); padding-block: var(--gap);
+			}
 
 			a {
 				text-decoration: underline;
 			}
-		}
-
-		ul {
 		}
 	}
 }
@@ -193,6 +231,6 @@
 	}
 
 	.uc_tabular {
-		  font-variant-numeric: tabular-nums;
+		font-variant-numeric: tabular-nums;
 	}
 }
