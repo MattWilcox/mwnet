@@ -1,6 +1,6 @@
 @layer design {
 	:root {
-		--max-content-width: 48rem;
+		--max-content-width: 56rem;
 	}
 
 	.skiplink {
@@ -46,8 +46,6 @@
 			margin-block: calc(2 * var(--gap));
 			padding: calc(2 * var(--gap)) var(--gap);
 			border: 2px solid currentColor;
-			transform: rotate(-1.5deg);
-			font-family: var(--font-family-code);
 			background-color: white;
 			filter: drop-shadow(0 0 var(--gap) hsl(0 0% 0% / 0.2));
 
@@ -69,6 +67,25 @@
 				minmax(0, 1fr)
 				[content-extended-end]
 				minmax(var(--_min-gutters), 2fr)
+				[full-width-end];
+
+			.callout > * { /* We don't need the inline padding now */
+				padding-inline: 0;
+			}
+		}
+
+		@media screen and (min-width: 98rem) {
+			grid-template-columns:
+				[full-width-start]
+				minmax(var(--_min-gutters), 3fr)
+				[content-extended-start]
+				minmax(0, 1fr)
+				[content-start]
+				min( calc(100% - (2 * var(--_min-gutters))), var(--max-content-width) )
+				[content-end]
+				minmax(0, 1fr)
+				[content-extended-end]
+				minmax(var(--_min-gutters), 3fr)
 				[full-width-end];
 
 			.callout > * { /* We don't need the inline padding now */
@@ -100,10 +117,16 @@
 
 		.navInPage {
 			grid-column: content;
+			padding-block: 0.5em;
+			border-block: 1px solid currentColor;
+			font-size: var(--font-size-diminished);
+
+			ul {
+				display: flex; flex-wrap: wrap; gap: 0.5em var(--gap);
+			}
 
 			li {
 				font-family: var(--font-family-code);
-				font-size: var(--font-size-diminished);
 				text-align: middle;
 			}
 
@@ -111,7 +134,8 @@
 				display: inline-block;
 				&:before {
 					content: "↓";
-					display: inline-block;margin-inline-end: 0.2em;
+					display: inline-block;
+					margin-inline-end: 0.2em;
 				}
 			}
 		}
@@ -190,7 +214,24 @@
 	}
 
 	html[data-template='about'] {
-		main section .uc_rich-text {
+		main {
+			--_section-gap: calc( 2 * var(--gap) );
+			display: grid;
+
+			section + section {
+				margin-block-start: var(--_section-gap);
+				padding-block-start: var(--_section-gap);
+
+				&:before {
+					content: ""; position: absolute; left: 50%; transform: translateX(-50%);
+					display: block; width: var(--_section-gap); height: 1px;
+					background-color: currentColor;
+				}
+			}
+		}
+
+		main > section .uc_rich-text {
+			display: grid; grid-template-columns: subgrid;
 			grid-column: content;
 		}
 	}
@@ -198,6 +239,16 @@
 
 @layer utilities {
 	.uc_rich-text {
+		display: contents;
+
+		& > * {
+			grid-column: content;
+		}
+
+		& > :where(h2, h3, h4) {
+			margin-block-start: calc(3 * var(--gap));
+		}
+
 		& a[href^="http" i]:not([href*="mattwilcox.net" i]) {
 			/* links to external websites */
 			color: blue;
