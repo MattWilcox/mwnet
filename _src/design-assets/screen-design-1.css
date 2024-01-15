@@ -25,6 +25,7 @@
 		.layout_grid1,
 		footer > section,
 		html[data-template='home']  header,
+		html[data-template='home']  main section .containerChild,
 		html[data-template='about'] header,
 		html[data-template='about'] main section .containerChild
 	 ) {
@@ -213,7 +214,8 @@
 		display: flex; gap: var(--gap);
 	}
 
-	html[data-template='about'] {
+	html[data-template='about'],
+	html[data-template='home'] {
 		main {
 			--_section-gap: calc( 2 * var(--gap) );
 			display: grid;
