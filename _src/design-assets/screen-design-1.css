@@ -107,7 +107,7 @@
 		.pageIntro {
 			grid-column: content;
 
-			a {
+			p a {
 				font-size: var(--font-size-diminished);
 			}
 		}
@@ -240,13 +240,22 @@
 }
 
 @layer utilities {
-	.uc_rich-text {
+	.containerChild > .uc_rich-text {
 		display: contents;
 
 		& > * {
 			grid-column: content;
 		}
+	}
 
+	.callout {
+		& > * + * {
+			/* This method of getting vertical spacing may end up redundant if margin-trim lands: https://developer.mozilla.org/en-US/docs/Web/CSS/margin-trim */
+			margin-block-start: var(--gap);
+		}
+	}
+	.uc_rich-text,
+	.callout {
 		& > :where(h2, h3, h4) {
 			margin-block-start: calc(3 * var(--gap));
 		}
