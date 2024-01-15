@@ -478,6 +478,28 @@
 			margin-block-start: var(--gap);
 		}
 
+		ul {
+			list-style: none;
+			padding-inline-start: 0; margin-inline-start: 0;
+
+			li {
+				position: relative;
+				margin-inline-start: 2em;
+
+				&:before {
+					content: ""; position: absolute; left: -1em; top: 0.5em;
+					display: block; width: 0.4em; aspect-ratio: 1;
+					border-radius: 50%; background-color: currentColor;
+				}
+
+				&:not(:last-child):after {
+					content: ""; position: absolute; left: -0.825em; top: 1.2em;
+					display: block; width: 1px; height: calc(100% - 0.5em);
+					background-color: currentColor; opacity: 0.15;
+				}
+			}
+		}
+
 		&:not([data-allow-long-lines]) > * {
 			max-inline-size: 72ch; /* Don't allow hard to read line-lengths unless there's a data attribute to say to allow it */
 		}
@@ -522,7 +544,8 @@
 			text-underline-offset: 0.15em;
 		}
 
-		li + li {
+		li + li,
+		li > ul > li:first-child {
 			margin-block-start: 0.5em;
 		}
 
@@ -532,10 +555,6 @@
 			& > li::marker {
 				font-family: monospace; font-size: 0.875em;
 			}
-		}
-
-		ul {
-			margin-left: 1.2em;
 		}
 
 		blockquote {

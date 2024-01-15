@@ -14,3 +14,4 @@
 	- I have no idea how best to do this with this tech stack
 		- Likely should not be outputting duplicate files, but may be required of a static site?
 		- How would you automate re-writes/routing for this sort of thing with Caddy and 11ty?
+- How do you force markdown to add `role='list'` to `ul` elements, so I can style them without losing their ARIA role?
