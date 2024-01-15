@@ -473,9 +473,11 @@
 
 	/* Styling "blocks" of text such as from a Rich Text Editor, that contains multiple types of mostly text mark-up, such as paragraphs, ul, li, etc */
 	:where(.uc_rich-text) {
+		--_block-gap: calc( 2 * var(--gap) );
+
 		& > * + * {
 			/* This method of getting vertical spacing may end up redundant if margin-trim lands: https://developer.mozilla.org/en-US/docs/Web/CSS/margin-trim */
-			margin-block-start: var(--gap);
+			margin-block-start: var(--_block-gap);
 		}
 
 		ul {
