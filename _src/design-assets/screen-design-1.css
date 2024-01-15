@@ -46,7 +46,7 @@
 			display: grid; grid-template-columns: subgrid; /* inherit the parents' grid */
 			margin-block: calc(2 * var(--gap));
 			padding: calc(2 * var(--gap)) var(--gap);
-			border: 2px solid currentColor;
+			border-block: 2px solid currentColor;
 			background-color: white;
 			filter: drop-shadow(0 0 var(--gap) hsl(0 0% 0% / 0.2));
 
