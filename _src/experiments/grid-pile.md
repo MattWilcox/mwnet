@@ -1,9 +1,8 @@
 ---
-layout: "layouts/experiments.html"
-template: experiments
 pageTitle: "CSS Grid Pile"
 metaDescription: "Minimal CSS example of the Pile technique."
 pageIntro: "Minimal CSS example of the Pile technique."
+datePublished: "2024-01-22"
 ---
 <style>
 	@layer isolated {
