@@ -95,6 +95,21 @@
 		}
 	}
 
+	/* html {
+		background:
+			radial-gradient(
+				circle at 0% 0% in oklch longer hue,
+				#6465e6,
+				transparent
+			),
+			radial-gradient(
+				circle at 100% 100% in oklch shorter hue,
+				#4d9f0c,
+				transparent
+			);
+		color: white;
+	} */
+
 	.siteIntro {
 		grid-column: content;
 		padding-block: var(--gap);
