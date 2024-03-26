@@ -95,20 +95,68 @@
 		}
 	}
 
-	/* html {
+	@property --_one {
+		inherits: false;
+		initial-value: -100%;
+		syntax: '<percentage>';
+	}
+	@property --_two {
+		inherits: false;
+		initial-value: -100%;
+		syntax: '<percentage>';
+	}
+	@property --_three {
+		inherits: false;
+		initial-value: 200%;
+		syntax: '<percentage>';
+	}
+	@property --_four {
+		inherits: false;
+		initial-value: 200%;
+		syntax: '<percentage>';
+	}
+
+	html {
+		--_one:   -100%;
+		--_two:   -100%;
+		--_three: 200%;
+		--_four:  200%;
+
 		background:
 			radial-gradient(
-				circle at 0% 0% in oklch longer hue,
+				circle at var(--_one) var(--_two) in oklch longer hue,
 				#6465e6,
 				transparent
 			),
 			radial-gradient(
-				circle at 100% 100% in oklch shorter hue,
+				circle at var(--_three) var(--_four) in oklch shorter hue,
 				#4d9f0c,
 				transparent
 			);
 		color: white;
-	} */
+		text-shadow: 0.02em 0.02em 0.3em hsl(0 0% 0% / 0.2);
+
+		animation: invertOffset 30s infinite alternate ease-in-out;
+
+		.callout {
+			background-color: hsl(0 0% 0% / 0.2)
+		}
+	}
+
+	@keyframes invertOffset {
+		0% {
+			--_one:   -100%;
+			--_two:   -0%;
+			--_three: 200%;
+			--_four:  200%;
+		}
+		100% {
+			--_one:   200%;
+			--_two:   100%;
+			--_three: -100%;
+			--_four:  -100%;
+		}
+	}
 
 	.siteIntro {
 		grid-column: content;
