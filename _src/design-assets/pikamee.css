@@ -1,0 +1,85 @@
+@layer defaults {
+	@font-face {
+		font-family: 'Shantell Sans';
+		src: url('./fonts/ShantellSans-Bold.woff2') format('woff2');
+		font-weight: bold; font-style: normal;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Nunito';
+		src: url('./fonts/Nunito-Bold.woff2') format('woff2');
+		font-weight: bold; font-style: normal;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: 'Nunito';
+		src: url('./fonts/Nunito-Italic.woff2') format('woff2');
+		font-weight: normal; font-style: italic;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: 'Nunito';
+		src: url('./fonts/Nunito-Regular.woff2') format('woff2');
+		font-weight: normal; font-style: normal;
+		font-display: swap;
+	}
+
+	:root {
+		--font-family-primary   : "Nunito", AtkinsonHyperPro, "Helvetica Neue", Helvetica, Arial, sans-serif;
+		--font-family-headings  : "Shantell Sans", "Merriweather", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	}
+}
+@layer design {
+	:root {
+		color-scheme: light dark; /* https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark */
+
+		--skin:         #F2E4E0; /* RGB: 242 228 224 */
+		--skinShadow:   #C4798C; /* RGB: 196 121 140 */
+		--yellowHair:   #EEDA96; /* RGB: 238 218 150 */
+		--hairShadow:   #289994; /* RGB: 40 153 148 (Yeah, green) */
+		--hoodieGreen:  #ADE8BD; /* RGB: 173 232 189 */
+		--hoodieShadow: #355B6E; /* RGB: 53 91 110 */
+		--hoodieOrange: #EE814D; /* RGB: 238 129 77 */
+		--hoodieOrangeShadow: #5D2C22; /* 93 44 34 */
+		--eyesMain:     #37AEA7; /* RGB: 55 174 167 */
+		--eyesHilight:  #7DF4F7; /* RGB: 125 244 247 */
+		--white:        #EFF0F6; /* RGB: 239 240 246 */
+		--black:        #0A0F1E; /* RGB: 10 15 30 */
+	}
+
+	body {
+		background-color: light-dark( var(--skin), var(--hairShadow) );
+		color: light-dark( var(--black), var(--white) );
+	}
+
+	.uc_rich-text,
+	.callout {
+ 		& a[href^="http" i]:not([href*="mattwilcox.net" i]) {
+			color: light-dark( var(--eyesMain), var(--white) );
+		}
+	}
+
+	.callout {
+		background-color: light-dark( var(--skinShadow), var(--hoodieShadow) );
+		color: light-dark( var(--white), var(--white) );
+	}
+
+	footer {
+		background-color: light-dark( var(--hoodieGreen), var(--hoodieShadow) );
+		color: light-dark( var(--black), var(--white) );
+
+		border-block-start-color: light-dark( var(--hoodieShadow), var(--hoodieShadow) );
+
+		h2, h3, h4 {
+			color: light-dark( var(--hoodieOrange), var(--white) );
+			border-block-end-color: light-dark( var(--hoodieShadow), var(--hoodieShadow) );
+		}
+
+		#minutae {
+			background-color: light-dark( var(--hoodieShadow), var(--hoodieShadow) );
+			color: light-dark( var(--eyesHilight), var(--eyesHilight) );
+		}
+	}
+}
