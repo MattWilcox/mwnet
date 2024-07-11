@@ -2,7 +2,12 @@
 layout: "layouts/base.html"
 template: home
 pageTitle: "Matt Wilcox's Homepage"
+listingExcerpt: "-"
 metaDescription: "Matt Wilcox is a web develop from the United Kingdom, this is his homepage."
+datePublished: "2024-07-11"
+dateUpdated: "2024-07-11"
+tags:
+	- "page"
 ---
 <header>
 	<hgroup>
@@ -31,6 +36,24 @@ metaDescription: "Matt Wilcox is a web develop from the United Kingdom, this is 
 		<div class="containerChild">
 			<div class="uc_rich-text">
 				<h2>Table of Contents</h2>
+				<table>
+					<thead>
+						<tr>
+							<th>Page</th>
+							<th>Date Updated</th>
+							<th>Excerpt</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for page in collections.page %}
+							<tr>
+								<th><a href="{{ page.url }}">{{ page.data.pageTitle }}</a></th>
+								<td>{{ page.data.dateUpdated }}</td>
+								<td>{{ page.data.listingExcerpt }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</section>
