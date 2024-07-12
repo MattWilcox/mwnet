@@ -238,6 +238,9 @@
 		}
 	*/
 		:root {
+			/* Opt into light-dark - https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark */
+			color-scheme: light dark;
+
 			/* Generic measures */
 			--gap:            var(--font-size-base);
 			--letter-spacing: 0.025em;
@@ -278,6 +281,8 @@
 			--ui-green:                103 46% 48%;
 			--ui-red:                  17 46% 48%;
 			--black:                   0 0% 0%;
+			--greyDark:                0 0% 15%;
+			--greyLight:               0 0% 70%;
 			--white:                   0 0% 100%;
 			--brand-colour:            120 40% 40%;
 			--brand-colour-contrast:   300 60% 60%;
@@ -285,8 +290,14 @@
 
 	/* # Base Elements */
 		html {
-			background-color: hsl( var(--white) );
-			color           : hsl( var(--black) );
+			background-color: light-dark(
+				hsl( var(--white) ),
+				hsl( var(--greyDark) )
+			);
+			color           : light-dark(
+				hsl( var(--black) ),
+				hsl( var(--greyLight) )
+			);
 			accent-color    : var(--brand-colour, auto); /* https://developer.mozilla.org/en-US/docs/Web/CSS/accent-color */
 			font-size       : var(--font-size-root);
 		}
@@ -357,17 +368,21 @@
 				padding: 0.5rem;
 				text-align: left;
 			}
-			tr:nth-of-type(2n) td {
-				background-color: hsl(0 0% 0% / 0.1)
+			tr:nth-of-type(2n) :is(th, td) {
+				background-color: hsl(0 0% 0% / 0.03)
 			}
 			caption {
 				text-transform: uppercase; font-size: 0.875em; letter-spacing: 0.02em; font-weight: bold;
 			}
 			thead {
 				border-block-end: 1px solid currentColor;
+				font-size: 0.75em; text-transform: uppercase;
 			}
 			tbody th {
 				border-inline-end: 1px solid currentColor;
+			}
+			tbody td {
+				font-size: 0.75em;
 			}
 			tfoot {
 				border-block-start: 1px solid currentColor;

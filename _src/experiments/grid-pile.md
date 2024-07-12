@@ -3,6 +3,10 @@ pageTitle: "CSS Grid Pile"
 metaDescription: "Minimal CSS example of the Pile technique."
 pageIntro: "Minimal CSS example of the Pile technique."
 datePublished: "2024-01-22"
+dateUpdated: "2024-01-22"
+listingExcerpt: "Minimal CSS example of the Pile technique"
+tags:
+	- "page"
 ---
 <style>
 	@layer isolated {

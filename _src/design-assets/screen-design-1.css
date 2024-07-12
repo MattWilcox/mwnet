@@ -47,7 +47,10 @@
 			margin-block: calc(2 * var(--gap));
 			padding: calc(2 * var(--gap)) var(--gap);
 			border-block: 2px solid currentColor;
-			background-color: white;
+			background-color: light-dark(
+				hsl( var(--white) ),
+				hsl( var(--greyDark) )
+			);
 			filter: drop-shadow(0 0 var(--gap) hsl(0 0% 0% / 0.2));
 
 			& > * {
