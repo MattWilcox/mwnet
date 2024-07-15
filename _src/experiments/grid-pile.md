@@ -5,8 +5,7 @@ pageIntro: "Minimal CSS example of the Pile technique."
 datePublished: "2024-01-22"
 dateUpdated: "2024-01-22"
 listingExcerpt: "Minimal CSS example of the Pile technique"
-tags:
-	- "page"
+tags: ["css"]
 ---
 <style>
 	@layer isolated {

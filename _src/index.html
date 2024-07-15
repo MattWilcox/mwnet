@@ -6,8 +6,9 @@ listingExcerpt: "-"
 metaDescription: "Matt Wilcox is a web develop from the United Kingdom, this is his homepage."
 datePublished: "2024-07-11"
 dateUpdated: "2024-07-11"
-tags:
-	- "page"
+tags: [
+	"homepage"
+]
 ---
 <header>
 	<hgroup>
@@ -45,11 +46,17 @@ tags:
 						</tr>
 					</thead>
 					<tbody>
-						{% for page in collections.page %}
+						{% for page in collections.all %}
 							<tr>
 								<th><a href="{{ page.url }}">{{ page.data.pageTitle }}</a></th>
 								<td>{{ page.data.dateUpdated }}</td>
-								<td>{{ page.data.listingExcerpt }}</td>
+								<td>
+									<ul>
+										{% for tag in page.data.tags %}
+											<li>{{ tag }}</li>
+										{% endfor %}
+									</ul>
+								</td>
 							</tr>
 						{% endfor %}
 					</tbody>

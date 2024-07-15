@@ -330,7 +330,9 @@
 
 		& a[href^="http" i]:not([href*="mattwilcox.net" i]) {
 			/* links to external websites */
-			color: blue;
+			color: light-dark(
+				blue, pink
+			);
 
 			&::after {
 				content: "";
