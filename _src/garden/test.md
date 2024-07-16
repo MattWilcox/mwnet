@@ -7,4 +7,12 @@ datePublished: "2024-01-22"
 dateUpdated: "2024-01-22"
 tags: ["philosophy"]
 ---
-This is something
+
+This is just some text, and I can write in MarkDown, which is nice.
+
+Means that writing new posts ought to be simple and fast.
+
+- because item one
+- and item two
+
+Etc.

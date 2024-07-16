@@ -370,7 +370,10 @@
 				align-content: baseline;
 			}
 			tr:nth-of-type(2n) :is(th, td) {
-				background-color: hsl(0 0% 0% / 0.03)
+				background-color: light-dark(
+					hsl( var(--greyLight) / 0.1),
+					hsl( var(--greyLight) / 0.05 )
+				);
 			}
 			caption {
 				text-transform: uppercase; font-size: 0.875em; letter-spacing: 0.02em; font-weight: bold;
