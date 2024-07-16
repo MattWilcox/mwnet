@@ -367,6 +367,7 @@
 			caption, th, td {
 				padding: 0.5rem;
 				text-align: left;
+				align-content: baseline;
 			}
 			tr:nth-of-type(2n) :is(th, td) {
 				background-color: hsl(0 0% 0% / 0.03)

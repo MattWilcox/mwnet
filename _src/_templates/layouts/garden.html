@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en-GB" {% if template %}data-template="{{ template }}{% endif %}">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport"
+					content="width=device-width,initial-scale=1" />
+		{% if metaDescription %}
+		<meta name="description"
+					content="{{ metaDescription }}" />
+		{% endif %}
+		<meta name="twitter:dnt"
+					content="on"><!-- Disallow Twitter from using your site’s info for personalization purposes: https://github.com/joshbuchea/HEAD#twitter-privacy -->
+		<meta name="view-transition"
+					content="same-origin" /><!-- Opt into page transition animations. By default, they cross-fade. See https://smashing-transitions.netlify.app/page-transition-flag/ -->
+		<title>
+			{% if pageTitle %}
+				{{ pageTitle }}
+			{% else %}
+				Matt forgot to add a pageTitle
+			{% endif %}
+		</title>
+
+		<!-- Website styles -->
+		<link
+			rel="stylesheet"
+			media="screen"
+			href="/design-assets/screen-core.css"
+		/>
+		<link
+			rel="stylesheet"
+			media="screen"
+			href="/design-assets/screen-design-1.css"
+		/>
+		<!-- <link
+			rel="stylesheet"
+			media="screen"
+			href="/design-assets/pikamee.css"
+		/> -->
+
+		<!-- OPTIONAL: environmental state indicators.
+				Add environmental state indicators to the HTML element as soon as possible.
+
+				NOTE: Scripts with a type of module are parsed only by modern browsers. Means we have Fetch, ES6, etc.
+		-->
+		<script type="module">
+			const htmlElement = document.querySelector('html');
+
+			htmlElement.dataset.jsAvailable = 'true';
+
+			document.onreadystatechange = (e) => {
+				htmlElement.dataset.domReadyState = e.target.readyState;
+			};
+		</script>
+
+		<!-- Basic modern features -->
+		<meta
+			name="theme-color"
+			content="#ffffff" /><!-- learn more: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta/name/theme-color -->
+		<link rel="icon" href="/design-assets/images/favicon.svg" /><!-- SVG's can be made "dark-mode" aware. See the linked example SVG. -->
+	</head>
+
+	<body>
+		{% include "includes/base-header.html" %}
+
+		<div class="siteContext">
+			<p class="uc_h2"><a href="/">Matt Wilcox</a></p>
+			<div>SEARCH UI HERE</div>
+		</div>
+
+		<header>
+			<div>
+				<h1 class="uc_h1">{{ pageTitle }}</h1>
+
+				<div class="meta">
+					<dl>
+						<div>
+							<dt>Date Published</dt>
+							<dd>{{ datePublished }}</dd>
+						</div>
+						{% if dateUpdated %}
+							<div>
+								<dt>Last Updated</dt>
+								<dd>{{ dateUpdated }}</dd>
+							</div>
+						{% endif %}
+						<div>
+							<dt>Tagged:</dt>
+							<dd>
+								<ul>
+									{% for tag in tags %}
+										<li>{{ tag }}</li>
+									{% endfor %}
+								</ul>
+							</dd>
+						</div>
+					</dl>
+				</div>
+			</div>
+			<div class="pageIntro">
+				<p>{{ pageIntro }}</p>
+			</div>
+		</header>
+
+		{{ content }}
+
+		<footer>
+			{% include "includes/base-footer.html" %}
+		</footer>
+	</body>
+</html>

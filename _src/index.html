@@ -42,7 +42,7 @@ tags: [
 						<tr>
 							<th>Page</th>
 							<th>Date Updated</th>
-							<th>Tags</th>
+							<th>Tagged</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -53,7 +53,7 @@ tags: [
 								<td>
 									<ul>
 										{% for tag in page.data.tags %}
-											<li>{{ tag }}</li>
+											<li><a href="/" class="tag">{{ tag }}</a></li>
 										{% endfor %}
 									</ul>
 								</td>
