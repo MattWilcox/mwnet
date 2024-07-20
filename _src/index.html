@@ -46,7 +46,7 @@ tags: [
 						</tr>
 					</thead>
 					<tbody>
-						{% for page in collections.all | sortByModification %}
+						{% for page in collections.all %}
 							<tr>
 								<th><a href="{{ page.url }}">{{ page.data.pageTitle }}</a></th>
 								<td>{{ page.data.dateUpdated | postDate }}</td>
