@@ -4,6 +4,8 @@
 
 ## 11ty related
 
+- need a tag system
+- need related posts and/or back-next per tag on the item
 - I want to do proper URL handling like back in the day, work out how:
 	- One article accessible via multiple URLs for old-school URL hackability and contextual pagination:
 		- CANONICAL: `/whatever/title-of-article`

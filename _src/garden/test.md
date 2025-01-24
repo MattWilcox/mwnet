@@ -16,3 +16,7 @@ Means that writing new posts ought to be simple and fast.
 - and item two
 
 Etc.
+
+[[Matt Wilcox's Homepage]]
+
+That was a test to link to this page?

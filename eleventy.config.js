@@ -4,23 +4,18 @@
 // 	EleventyHtmlBasePlugin
 // } from "@11ty/eleventy";
 
-// const { DateTime } = import("luxon");
+/* Imports */
 import { DateTime } from "luxon";
+import eleventyPluginInterlinker from "@photogabble/eleventy-plugin-interlinker";
 
-/* helpers */
-	const nthNumber = (number) => {
-		if (number > 3 && number < 21) return "th";
-		switch (number % 10) {
-			case 1:
-				return "st";
-			case 2:
-				return "nd";
-			case 3:
-				return "rd";
-			default:
-				return "th";
-		}
-	};
+/* Exports */
+export const config = {
+	dir: {
+		input: "_src",
+		output: "_publish",
+		includes: "_templates"
+	}
+}
 
 /** @param {import('@11ty/eleventy').UserConfig} eleventyConfig */
 export default function (eleventyConfig) {
@@ -39,6 +34,8 @@ export default function (eleventyConfig) {
 			return `${days}<sup>${nthNumber(days)}</sup> ${restOfDate}`;
 		}
 	);
+
+	eleventyConfig.addPlugin( eleventyPluginInterlinker );
 
 	// Return all the tags used in a collection
 	eleventyConfig.addAsyncFilter(
@@ -60,12 +57,19 @@ export default function (eleventyConfig) {
 			return (tags || []).filter(tag => ["all", "nav", "post", "posts"].indexOf(tag) === -1);
 		}
 	);
-
-	return {
-		dir: {
-			input: "_src",
-			output: "_publish",
-			includes: "_templates"
-		}
-	}
 }
+
+/* Helpers */
+const nthNumber = (number) => {
+	if (number > 3 && number < 21) return "th";
+	switch (number % 10) {
+		case 1:
+			return "st";
+		case 2:
+			return "nd";
+		case 3:
+			return "rd";
+		default:
+			return "th";
+	}
+};
