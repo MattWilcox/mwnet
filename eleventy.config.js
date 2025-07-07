@@ -54,7 +54,13 @@ export default function (eleventyConfig) {
 	eleventyConfig.addAsyncFilter(
 		"filterTagList",
 		async function filterTagList(tags) {
-			return (tags || []).filter(tag => ["all", "nav", "post", "posts"].indexOf(tag) === -1);
+			return (tags || []).filter(
+				tag => [
+					"all",
+					"nav",
+					"post",
+					"posts"
+				].indexOf(tag) === -1);
 		}
 	);
 }
